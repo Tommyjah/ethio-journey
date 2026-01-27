@@ -1,0 +1,138 @@
+'use client';
+
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Phone, Mail, MapPin, MessageCircle, Send, ArrowLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import Navbar from '../../components/Navbar';
+import { Language } from '../../types';
+
+export default function ContactPage() {
+  const router = useRouter();
+  const [language, setLanguage] = useState<Language>(Language.EN);
+
+  return (
+    <div className="min-h-screen bg-black text-white selection:bg-[#D4AF37] selection:text-black">
+      <Navbar language={language} setLanguage={setLanguage} onInquiryClick={() => {}} />
+
+      {/* Header Space */}
+      <section className="pt-32 pb-16 px-6 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-4xl mx-auto"
+        >
+          <h1 className="font-serif text-5xl md:text-7xl font-bold mb-6">
+            {language === Language.AM ? 'ያግኙን' : 'Concierge Desk'}
+          </h1>
+          <p className="text-[#D4AF37] tracking-[0.4em] uppercase text-[10px] md:text-xs">
+            Personalized Luxury Service
+          </p>
+        </motion.div>
+      </section>
+
+      <section className="max-w-7xl mx-auto px-6 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-20">
+        
+        {/* Left: Contact Information */}
+        <motion.div 
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
+          className="space-y-12"
+        >
+          <div>
+            <h2 className="text-2xl font-serif mb-8 text-white/90">Our Headquarters</h2>
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <MapPin className="text-[#D4AF37] shrink-0 mt-1" size={20} />
+                <p className="text-white/60 font-light leading-relaxed">
+                  Around 22, Weha Lemat, Meklit Building<br />
+                  3rd Floor, House #4<br />
+                  Addis Ababa, Ethiopia
+                </p>
+              </div>
+              
+              <div className="flex items-center gap-4 group cursor-pointer">
+                <Phone className="text-[#D4AF37]" size={20} />
+                <a href="tel:+251911444646" className="text-white/60 group-hover:text-white transition-colors">
+                  +251 911 444 646
+                </a>
+              </div>
+
+              <div className="flex items-center gap-4 group cursor-pointer">
+                <Mail className="text-[#D4AF37]" size={20} />
+                <a href="mailto:info@ethiojourney.com" className="text-white/60 group-hover:text-white transition-colors">
+                  info@ethiojourney.com
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* WhatsApp CTA */}
+          <div className="p-8 bg-zinc-900/50 border border-white/5 rounded-2xl">
+            <h3 className="text-lg font-serif mb-4 italic">Instant Assistance</h3>
+            <p className="text-white/50 text-sm mb-6">Speak directly with our travel designers on WhatsApp for immediate itinerary support.</p>
+            <a 
+              href="https://wa.me/251911444646" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 bg-[#25D366]/10 text-[#25D366] px-6 py-3 rounded-full border border-[#25D366]/30 hover:bg-[#25D366] hover:text-white transition-all duration-300"
+            >
+              <MessageCircle size={18} />
+              <span className="font-bold text-xs uppercase tracking-widest">Chat on WhatsApp</span>
+            </a>
+          </div>
+        </motion.div>
+
+        {/* Right: Elegant Contact Form */}
+        <motion.div 
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4 }}
+          className="bg-zinc-900/30 p-8 md:p-12 rounded-3xl border border-white/5"
+        >
+          <form className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Full Name</label>
+                <input type="text" className="w-full bg-transparent border-b border-white/10 py-2 focus:border-[#D4AF37] outline-none transition-colors text-sm font-light" placeholder="John Doe" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Email Address</label>
+                <input type="email" className="w-full bg-transparent border-b border-white/10 py-2 focus:border-[#D4AF37] outline-none transition-colors text-sm font-light" placeholder="john@example.com" />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Inquiry Type</label>
+              <select className="w-full bg-transparent border-b border-white/10 py-2 focus:border-[#D4AF37] outline-none transition-colors text-sm font-light appearance-none">
+                <option className="bg-zinc-950">Luxury Expedition</option>
+                <option className="bg-zinc-950">Private Fleet Hire</option>
+                <option className="bg-zinc-950">Corporate Travel</option>
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Your Message</label>
+              <textarea rows={4} className="w-full bg-transparent border-b border-white/10 py-2 focus:border-[#D4AF37] outline-none transition-colors text-sm font-light resize-none" placeholder="How can we craft your journey?" />
+            </div>
+
+            <button className="w-full py-4 bg-[#D4AF37] text-black font-bold text-xs uppercase tracking-[0.3em] hover:bg-white transition-all duration-500 rounded-sm">
+              Send Request
+            </button>
+          </form>
+        </motion.div>
+      </section>
+
+      {/* Footer Back Button */}
+      <footer className="py-12 text-center">
+        <button 
+          onClick={() => router.push('/')}
+          className="text-white/30 hover:text-[#D4AF37] transition-colors text-[10px] font-bold uppercase tracking-widest inline-flex items-center gap-2"
+        >
+          <ArrowLeft size={14} /> Back to Experience
+        </button>
+      </footer>
+    </div>
+  );
+}
