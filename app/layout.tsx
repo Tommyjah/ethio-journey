@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import SmoothScroll from "../components/SmoothScroll";
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ethiojourney.pro.et'),
@@ -11,11 +11,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Ethio Journey | Luxury Travel & Logistics",
     description: "Unveil the majesty of Ethiopia with our elite fleet and signature expeditions.",
-    url: "https://ethiojourney.pro.et", // Replace with your actual domain
+    url: "https://ethiojourney.pro.et",
     siteName: "Ethio Journey",
     images: [
       {
-        url: "/og-image.jpg", // Create a 1200x630 image and put it in /public
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Ethio Journey Luxury Land Cruiser in the Ethiopian Highlands",
@@ -35,6 +35,7 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
 };
+
 export default function RootLayout({
   children,
 }: {
@@ -46,6 +47,7 @@ export default function RootLayout({
         <SmoothScroll>
           {children}
         </SmoothScroll>
+        <SpeedInsights />
       </body>
     </html>
   );
