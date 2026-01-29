@@ -16,7 +16,7 @@ export default function Hero({ language, onBookClick }: HeroProps) {
       {/* --- BACKGROUND IMAGE --- */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/hero-bg.jpg" // FIXED: Pointing to your local file
+          src="/images/AI1.jpg" // FIXED: Pointing to your local file
           alt="Ethio Journey Luxury Expedition"
           fill
           priority 

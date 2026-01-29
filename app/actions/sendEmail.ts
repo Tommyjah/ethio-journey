@@ -15,7 +15,7 @@ export async function sendInquiry(formData: FormData) {
   try {
     const data = await resend.emails.send({
       from: 'Ethio Journey <onboarding@resend.dev>', // Later use your domain
-      to: ['tomiti2552@gmail.com'], // YOUR EMAIL HERE
+      to: ['ethiojourney@gmail.com'], // YOUR EMAIL HERE
       subject: `New VIP Inquiry: ${name}`,
       html: `
         <h1>New Journey Request</h1>

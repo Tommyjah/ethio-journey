@@ -31,7 +31,7 @@ export default function Home() {
   const fleetItems = [
     { 
       title: "Executive Power", 
-      img: "/images/fleet-landcruiser.jpg" 
+      img: "/images/fleet-v6300.jpg" 
     },
     { 
       title: "Group Elegance", 

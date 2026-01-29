@@ -42,12 +42,13 @@ const AIConcierge = forwardRef<AIConciergeRef, AIConciergeProps>((props, ref) =>
   }, [messages, isLoading]);
 
   const processMessage = async (text: string) => {
+    if (isLoading || !text.trim()) return;
+    
     const userMsg: ChatMessage = { role: 'user', content: text };
     setMessages((prev) => [...prev, userMsg]);
     setIsLoading(true);
 
     try {
-      // ✅ Fetching from our SECURE internal API route
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -57,21 +58,37 @@ const AIConcierge = forwardRef<AIConciergeRef, AIConciergeProps>((props, ref) =>
         }),
       });
 
-      if (!response.ok) throw new Error('API request failed');
+      // Handle Rate Limiting (429) without crashing the component
+      if (response.status === 429) {
+        setMessages((prev) => [...prev, { 
+          role: 'assistant', 
+          content: "Our elite concierge service is currently in high demand. Please allow a moment before your next request." 
+        }]);
+        return;
+      }
+
+      // Handle General Server Errors (500)
+      if (!response.ok) {
+        setMessages((prev) => [...prev, { 
+          role: 'assistant', 
+          content: "The private line is currently occupied. Please try again shortly or contact us directly." 
+        }]);
+        return;
+      }
 
       const data = await response.json();
       
       const assistantMsg: ChatMessage = { 
         role: 'assistant', 
-        content: data.text || "Our specialists are currently unavailable. Please reach out via phone." 
+        content: data.text || "Our specialists are currently preparing your itinerary. Please try again shortly." 
       };
       
       setMessages((prev) => [...prev, assistantMsg]);
     } catch (error) {
-      console.error("Concierge Error:", error);
+      console.error("Concierge Network Error:", error);
       setMessages((prev) => [...prev, { 
         role: 'assistant', 
-        content: "Our private line is currently experiencing high volume. Please try again later." 
+        content: "We are having trouble connecting to the lounge. Please check your connection." 
       }]);
     } finally {
       setIsLoading(false);
@@ -91,14 +108,17 @@ const AIConcierge = forwardRef<AIConciergeRef, AIConciergeProps>((props, ref) =>
       <button 
         onClick={() => setIsOpen(true)}
         className={`fixed bottom-10 right-10 z-[160] w-20 h-20 bg-[#F15A24] rounded-full flex items-center justify-center shadow-[0_15px_40px_rgba(241,90,36,0.5)] hover:scale-110 transition-all duration-300 ${isOpen ? 'scale-0' : 'scale-100'}`}
-    >
+        aria-label="Open AI Concierge"
+      >
         <MessageSquare className="text-white" size={32} />
-        
       </button>
       
       {/* Backdrop */}
       {isOpen && (
-        <div className="fixed inset-0 z-[170] bg-black/80 backdrop-blur-md transition-opacity duration-500" onClick={() => setIsOpen(false)} />
+        <div 
+          className="fixed inset-0 z-[170] bg-black/80 backdrop-blur-md transition-opacity duration-500" 
+          onClick={() => setIsOpen(false)} 
+        />
       )}
 
       {/* Chat Sidebar */}
@@ -152,7 +172,7 @@ const AIConcierge = forwardRef<AIConciergeRef, AIConciergeProps>((props, ref) =>
             <div className="flex justify-start animate-pulse">
               <div className="bg-white/5 border border-white/10 p-8 rounded-[2.5rem] flex items-center space-x-4">
                 <Loader2 className="animate-spin text-[#F15A24]" size={24} />
-                <span className="text-base text-white/50 font-light">Composing bespoke recommendations...</span>
+                <span className="text-base text-white/50 font-light">Composing recommendations...</span>
               </div>
             </div>
           )}
@@ -168,7 +188,8 @@ const AIConcierge = forwardRef<AIConciergeRef, AIConciergeProps>((props, ref) =>
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') handleSend(); }}
               placeholder={t.aiPlaceholder || 'Message your attaché...'}
-              className="w-full bg-white/5 border border-white/10 rounded-[2rem] py-6 pl-10 pr-20 outline-none focus:border-[#F15A24] transition-all placeholder:text-white/10 text-white text-xl font-light"
+              disabled={isLoading}
+              className="w-full bg-white/5 border border-white/10 rounded-[2rem] py-6 pl-10 pr-20 outline-none focus:border-[#F15A24] transition-all placeholder:text-white/20 text-white text-xl font-light disabled:cursor-not-allowed"
             />
             <button 
               onClick={handleSend}
