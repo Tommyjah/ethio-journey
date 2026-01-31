@@ -22,7 +22,7 @@ export default function DanakilTour() {
       { day: 3, title: "Neon Landscapes", desc: "Explore the surreal yellow and green sulfur springs of Dallol." },
       { day: 4, title: "Return to Civilisation", desc: "Visit the salt canyons before flying back to Addis Ababa." }
     ],
-    images: ["/images/danakil-1.jpg", "/images/danakil-2.jpg"]
+    images: ["/images/tour-danakilblue.webp", "/images/tour-danakill.jpg"]
   };
 
   // Remove language={params.lang} because the Layout handles language internally

@@ -1,17 +1,21 @@
+// ✅ FULL UPDATE for app/api/chat/route.ts
 import { NextResponse } from 'next/server';
+
+export const maxDuration = 60; 
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000);
+  const timeoutId = setTimeout(() => controller.abort(), 15000); 
 
   try {
     const { message } = await req.json();
     const apiKey = process.env.GEMINI_API_KEY;
 
-    if (!apiKey) return NextResponse.json({ text: "Config error." }, { status: 500 });
+    if (!apiKey) return NextResponse.json({ text: "Concierge config error." }, { status: 500 });
 
-    // ✅ Use v1beta - it is actually MORE stable for system_instructions in 2026
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const model = "gemini-2.0-flash-lite"; 
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
     const response = await fetch(url, {
       method: 'POST',
@@ -21,14 +25,26 @@ export async function POST(req: Request) {
         contents: [
           {
             role: "user",
-            parts: [{ text: `INSTRUCTIONS: You are the Elite Concierge for 'Ethio Journey' Luxury Travel. Be sophisticated. Contact: +251 911 22 33 44. 
-            
-            USER MESSAGE: ${message}` }]
+            parts: [{ 
+              text: `SYSTEM INSTRUCTIONS: 
+                     Role: You are the 'Ethio Journey' Elite Luxury Concierge.
+                     Personality: Sophisticated, warm, and highly knowledgeable. 
+                     Goal: Actively help the user plan their trip. Do NOT just tell them to call. 
+                     
+                     Context for your response:
+                     - For Lalibela: Mention luxury lodges (like Mezena or Hara) and private sunset tours of the churches.
+                     - For Addis Ababa: Mention the National Museum, Entoto Park, and high-end dining like Yod Abyssinia or Hyatt Regency.
+                     - For Honeymoons: Emphasize romance, private guides, and exclusive views.
+                     
+                     Constraint: Keep responses around 4-6 sentences. Be helpful first, THEN provide the contact +251 911 22 33 44 at the end.
+                     
+                     USER MESSAGE: ${message}` 
+            }]
           }
         ],
         generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 500,
+          temperature: 0.85, // Higher temperature = more creative & conversational
+          maxOutputTokens: 600, // Increased so it doesn't cut off the itinerary
         }
       }),
     });
@@ -37,8 +53,8 @@ export async function POST(req: Request) {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("Gemini Error:", data);
-      return NextResponse.json({ text: "The concierge is busy." }, { status: response.status });
+      console.error("Gemini Error:", JSON.stringify(data, null, 2));
+      return NextResponse.json({ text: "I'm momentarily unavailable to check the itinerary. How else can I help?" });
     }
 
     const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "I am at your service.";
@@ -46,6 +62,6 @@ export async function POST(req: Request) {
 
   } catch (error: any) {
     clearTimeout(timeoutId);
-    return NextResponse.json({ text: "Connection issues." }, { status: 500 });
+    return NextResponse.json({ text: "The connection is a bit slow. Please try again." });
   }
 }

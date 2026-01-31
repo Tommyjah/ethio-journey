@@ -6,6 +6,7 @@ export const LOCALIZATION: Record<Language, any> = {
     navHome: "Home",
     navTours: "Expeditions",
     navFleet: "The Fleet",
+    navServices: "Services",
     navAbout: "Our Legacy",
     heroTitle: "Ethiopia Refined",
     heroSubtitle: "Experience the cradle of civilization through the lens of absolute luxury.",
@@ -29,6 +30,7 @@ export const LOCALIZATION: Record<Language, any> = {
     navHome: "መነሻ",
     navTours: "ጉዞዎች",
     navFleet: "ተሽከርካሪዎች",
+    navServices: "አገልግሎቶች",
     navAbout: "ስለ እኛ",
     heroTitle: "የተመረጠች ኢትዮጵያ",
     heroSubtitle: "የስልጣኔ መገኛ የሆነችውን ኢትዮጵያን በልዩ የቅንጦት ሁኔታ ይለማመዱ።",
@@ -52,7 +54,7 @@ export const LOCALIZATION: Record<Language, any> = {
 
 export const TOURS: TourItem[] = [
   {
-    id: 't1',
+    id: 'danakil',
     name: { [Language.EN]: "Danakil Luxury Camp", [Language.AM]: "ዳናኪል የቅንጦት ካምፕ" },
     description: { [Language.EN]: "Private luxury tents in the Dallol depression. Experience fire and salt with exclusive helicopter access.", [Language.AM]: "በዳሎል ዝቅተኛ ቦታ በግል የቅንጦት ድንኳኖች የሚደረግ ጉዞ።" },
     price: 4500,
@@ -60,7 +62,7 @@ export const TOURS: TourItem[] = [
     duration: "4 Days"
   },
   {
-    id: 't2',
+    id: 'simien',
     name: { [Language.EN]: "Simien Highlands Escape", [Language.AM]: "የስሜን ተራራዎች ጉብኝት" },
     description: { [Language.EN]: "High-altitude luxury at Limalimo Lodge with private wildlife guides.", [Language.AM]: "በሊማሊሞ ሎጅ የሚደረግ የቅንጦት ቆይታ።" },
     price: 3200,
@@ -68,7 +70,7 @@ export const TOURS: TourItem[] = [
     duration: "5 Days"
   },
   {
-    id: 't3',
+    id: 'lalibela',
     name: { [Language.EN]: "Lalibela Heritage Tour", [Language.AM]: "የላሊበላ ቅርሶች ጉብኝት" },
     description: { [Language.EN]: "Private access to the rock-hewn churches with expert liturgical scholars.", [Language.AM]: "የላሊበላ አብያተ ክርስቲያናት ጉብኝት በልዩ ምሁራን።" },
     price: 2800,

@@ -15,6 +15,7 @@ import Legacy from '@/components/Legacy';
 import AIConcierge from '@/components/AIConcierge';
 import Footer from '@/components/Footer';
 import BookingModal from '@/components/BookingModal';
+import FloatingButtons from '@/components/FloatingButtons';
 
 // Types & Constants
 import { Language } from '@/types';
@@ -24,6 +25,7 @@ export default function Home() {
   const router = useRouter();
   const [language, setLanguage] = useState<Language>(Language.EN);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAIConciergeOpen, setIsAIConciergeOpen] = useState(false);
   const t = LOCALIZATION[language] || LOCALIZATION[Language.EN];
 
   const openBooking = () => setIsModalOpen(true);
@@ -179,25 +181,18 @@ export default function Home() {
         <Legacy language={language} />
       </main>
 
-      {/* --- FLOATING ACTION BAR --- */}
-      <div className="fixed bottom-6 right-6 z-[200] flex items-center gap-4">
-        <motion.a
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          href="https://wa.me/251911444646" 
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-[#25D366] text-white p-4 rounded-full shadow-2xl group relative border-2 border-white/10"
-          aria-label="Chat on WhatsApp"
-        >
-          <MessageCircle size={24} />
-          <span className="absolute -top-12 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap uppercase tracking-widest font-bold border border-white/10">
-            Chat with us
-          </span>
-        </motion.a>
+      {/* --- FLOATING ACTION BUTTONS --- */}
+      <FloatingButtons 
+        onOpenAIConcierge={() => setIsAIConciergeOpen(true)}
+        isAIConciergeOpen={isAIConciergeOpen}
+      />
 
-        <AIConcierge language={language} />
-      </div>
+      {/* AI Concierge */}
+      <AIConcierge 
+        language={language}
+        isOpen={isAIConciergeOpen}
+        onClose={() => setIsAIConciergeOpen(false)}
+      />
 
       <Footer language={language} />
 

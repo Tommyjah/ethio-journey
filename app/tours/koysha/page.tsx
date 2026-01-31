@@ -19,7 +19,7 @@ export default function KoyshaTour() {
       { day: 2, title: "The Dawro Heritage", desc: "Guided hike to the historic stone fortifications and sundowners on the sunset deck." },
       { day: 3, title: "Wildlife Encounter", desc: "Morning safari in Chebera Churchura before returning to Addis." }
     ],
-    images: ["/images/koysha-1.jpg", "/images/koysha-2.jpg"]
+    images: ["/images/tour-koysha1.jpg", "/images/tour-koysha.jpg"]
   };
 
   return <TourDetailLayout content={content} />;

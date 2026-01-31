@@ -13,9 +13,14 @@ export interface AIConciergeRef {
   openWithPrompt: (prompt: string) => void;
 }
 
+interface AIConciergeProps {
+  language?: Language;
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
 const AIConcierge = forwardRef<AIConciergeRef, AIConciergeProps>((props, ref) => {
-  const { language } = props;
-  const [isOpen, setIsOpen] = useState(false);
+  const { language, isOpen = false, onClose } = props;
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +31,9 @@ const AIConcierge = forwardRef<AIConciergeRef, AIConciergeProps>((props, ref) =>
 
   useImperativeHandle(ref, () => ({
     openWithPrompt: (prompt: string) => {
-      setIsOpen(true);
+      if (onClose) {
+        // This will be handled by parent component
+      }
       if (prompt && prompt.trim()) {
         processMessage(prompt);
       }
@@ -104,20 +111,11 @@ const AIConcierge = forwardRef<AIConciergeRef, AIConciergeProps>((props, ref) =>
 
   return (
     <>
-      {/* Floating Trigger Button */}
-      <button 
-        onClick={() => setIsOpen(true)}
-        className={`fixed bottom-10 right-10 z-[160] w-20 h-20 bg-[#F15A24] rounded-full flex items-center justify-center shadow-[0_15px_40px_rgba(241,90,36,0.5)] hover:scale-110 transition-all duration-300 ${isOpen ? 'scale-0' : 'scale-100'}`}
-        aria-label="Open AI Concierge"
-      >
-        <MessageSquare className="text-white" size={32} />
-      </button>
-      
       {/* Backdrop */}
       {isOpen && (
         <div 
           className="fixed inset-0 z-[170] bg-black/80 backdrop-blur-md transition-opacity duration-500" 
-          onClick={() => setIsOpen(false)} 
+          onClick={onClose} 
         />
       )}
 
@@ -135,7 +133,7 @@ const AIConcierge = forwardRef<AIConciergeRef, AIConciergeProps>((props, ref) =>
               <p className="text-[10px] text-[#D4AF37] font-bold tracking-[0.4em] uppercase">Private Attaché</p>
             </div>
           </div>
-          <button onClick={() => setIsOpen(false)} className="hover:bg-white/10 p-3 rounded-2xl transition-all text-white">
+          <button onClick={onClose} className="hover:bg-white/10 p-3 rounded-2xl transition-all text-white">
             <X size={32} />
           </button>
         </div>

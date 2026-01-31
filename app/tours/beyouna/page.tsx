@@ -17,7 +17,7 @@ export default function BeyounaTour() {
     itinerary: [
       { day: 1, title: "Addis Reimagined", desc: "Morning exploration of the Palace. Afternoon forest retreat at Beyouna for lunch and relaxation." }
     ],
-    images: ["/images/beyouna-1.jpg", "/images/beyouna-2.jpg"]
+    images: ["/images/tour-beynouna2.jpg", "/images/tour-beynouna1.jpg"]
   };
 
   return <TourDetailLayout content={content} />;

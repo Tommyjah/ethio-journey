@@ -49,7 +49,7 @@ export default function LalibelaDetailPage() {
       {/* Hero Header */}
       <section className="relative h-[60vh] flex items-end pb-20 px-6">
         <Image 
-          src="https://images.unsplash.com/photo-1545044846-351ba102b4d5?q=80&w=2000" 
+          src="/images/tour-lalibela1.webp" 
           alt="Lalibela" 
           fill 
           className="object-cover opacity-70"

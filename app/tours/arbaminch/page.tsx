@@ -37,7 +37,7 @@ export default function HararPage() {
     <div className="min-h-screen bg-black text-white">
       <Navbar language={language} setLanguage={setLanguage} onInquiryClick={() => setIsModalOpen(true)} />
       <section className="relative h-[60vh] flex items-end pb-20 px-6">
-        <Image src="https://images.unsplash.com/photo-1589830537443-7f32049c585d?q=80&w=2000" alt="Harar" fill className="object-cover opacity-70" />
+        <Image src="/images/tour-arbaminch.jpg" alt="Arbaminch" fill className="object-cover opacity-70" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
         <div className="relative max-w-7xl mx-auto w-full">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
