@@ -11,6 +11,7 @@ export async function sendInquiry(formData: FormData) {
   const date = formData.get('date');
   const guests = formData.get('guests');
   const requirements = formData.get('requirements');
+  const tour = formData.get('tour');
 
   try {
     const data = await resend.emails.send({
@@ -23,6 +24,7 @@ export async function sendInquiry(formData: FormData) {
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Travel Date:</strong> ${date}</p>
         <p><strong>Guests:</strong> ${guests}</p>
+        ${tour ? `<p><strong>Tour:</strong> ${tour}</p>` : ''}
         <p><strong>Special Requirements:</strong> ${requirements}</p>
       `,
     });

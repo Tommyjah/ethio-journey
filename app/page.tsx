@@ -16,6 +16,7 @@ import AIConcierge from '@/components/AIConcierge';
 import Footer from '@/components/Footer';
 import BookingModal from '@/components/BookingModal';
 import FloatingButtons from '@/components/FloatingButtons';
+import FeaturedCityTour from '@/components/FeaturedCityTour';
 
 // Types & Constants
 import { Language } from '@/types';
@@ -55,6 +56,9 @@ export default function Home() {
 
       <main>
         <Hero language={language} onBookClick={openBooking} />
+
+        {/* City Elite Tour Feature */}
+        <FeaturedCityTour language={language} onBookClick={openBooking} />
 
         <div id="services">
           <Services language={language} />

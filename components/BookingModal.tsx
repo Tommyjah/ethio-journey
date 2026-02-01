@@ -10,9 +10,10 @@ interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
   language: Language;
+  tourName?: string;
 }
 
-export default function BookingModal({ isOpen, onClose, language }: BookingModalProps) {
+export default function BookingModal({ isOpen, onClose, language, tourName }: BookingModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSent, setIsSent] = useState(false);
 
@@ -121,6 +122,13 @@ export default function BookingModal({ isOpen, onClose, language }: BookingModal
                   </p>
 
                   <form className="space-y-6" onSubmit={handleSubmit}>
+                    {tourName && (
+                      <input 
+                        type="hidden" 
+                        name="tour" 
+                        value={tourName} 
+                      />
+                    )}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <label className="text-xs uppercase tracking-widest text-[#F15A24] font-bold">Full Name</label>
