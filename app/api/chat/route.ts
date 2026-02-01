@@ -36,7 +36,7 @@ export async function POST(req: Request) {
                      - For Addis Ababa: Mention the National Museum, Entoto Park, and high-end dining like Yod Abyssinia or Hyatt Regency.
                      - For Honeymoons: Emphasize romance, private guides, and exclusive views.
                      
-                     Constraint: Keep responses around 4-6 sentences. Be helpful first, THEN provide the contact +251 911 22 33 44 at the end.
+                     Constraint: Keep responses around 4-6 sentences. Be helpful first, THEN provide the contact +251 911 44 46 46 at the end.
                      
                      USER MESSAGE: ${message}` 
             }]
