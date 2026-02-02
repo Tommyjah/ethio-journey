@@ -11,9 +11,11 @@ interface BookingModalProps {
   onClose: () => void;
   language: Language;
   tourName?: string;
+  hotelName?: string;
+  type?: 'tour' | 'hotel';
 }
 
-export default function BookingModal({ isOpen, onClose, language, tourName }: BookingModalProps) {
+export default function BookingModal({ isOpen, onClose, language, tourName, hotelName, type = 'tour' }: BookingModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSent, setIsSent] = useState(false);
 
@@ -40,9 +42,15 @@ export default function BookingModal({ isOpen, onClose, language, tourName }: Bo
       const date = formData.get('date');
       const guests = formData.get('guests');
       
-      const message = language === Language.AM 
-        ? `ሰላም Ethio Journey, እኔ ${name} ነኝ። በ ${date} ለ ${guests} ሰው ጉዞ ለማስያዝ እፈልጋለሁ።`
-        : `Hello Ethio Journey, I am ${name}. I am interested in booking a trip for ${guests} on ${date}.`;
+      const message = type === 'hotel' && hotelName ? (
+        language === Language.AM 
+          ? `ሰላም Ethio Journey, እኔ ${name} ነኝ። በ ${date} ለ ${guests} ሰው ${hotelName} ለማስያዝ እፈልጋለሁ።`
+          : `Hello Ethio Journey, I am ${name}. I am interested in booking ${hotelName} for ${guests} on ${date}.`
+      ) : (
+        language === Language.AM 
+          ? `ሰላም Ethio Journey, እኔ ${name} ነኝ። በ ${date} ለ ${guests} ሰው ጉዞ ለማስያዝ እፈልጋለሁ።`
+          : `Hello Ethio Journey, I am ${name}. I am interested in booking a trip for ${guests} on ${date}.`
+      );
       
       const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 

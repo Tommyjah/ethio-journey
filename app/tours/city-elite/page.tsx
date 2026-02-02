@@ -140,7 +140,7 @@ export default function CityEliteTour() {
       }
     ],
     images: [
-      "/images/tour_dancingwater.jpg",
+      "/images/tour-city5.webp",
       "/images/tour-city1.jpg",
       "/images/tour_city9.jpg",
       "/images/tour-city3.webp",

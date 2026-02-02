@@ -9,6 +9,7 @@ import { ArrowRight, MessageCircle } from 'lucide-react';
 // Components
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
+import HotelHero from '@/components/HotelHero';
 import Services from '@/components/Services';
 import TourGrid from '@/components/TourGrid';
 import Legacy from '@/components/Legacy';
@@ -56,6 +57,9 @@ export default function Home() {
 
       <main>
         <Hero language={language} onBookClick={openBooking} />
+
+        {/* Hotel Booking Section */}
+        <HotelHero language={language} onBookClick={openBooking} />
 
         {/* City Elite Tour Feature */}
         <FeaturedCityTour language={language} onBookClick={openBooking} />
