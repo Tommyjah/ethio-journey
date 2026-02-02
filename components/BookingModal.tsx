@@ -20,7 +20,7 @@ export default function BookingModal({ isOpen, onClose, language, tourName }: Bo
   // ---------------------------------------------------------
   // ⚙️ CONFIGURATION: ADJUST YOUR CONTACT DETAILS HERE
   // ---------------------------------------------------------
-  const WHATSAPP_NUMBER = "251941009666"; // Format: CountryCode + Number (No + sign)
+  const WHATSAPP_NUMBER = "251911444646"; // Format: CountryCode + Number (No + sign)
   // ---------------------------------------------------------
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

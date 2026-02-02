@@ -52,7 +52,7 @@ export default function FeaturedCityTour({ language, onBookClick }: FeaturedCity
           >
             <div className="relative aspect-[4/5] overflow-hidden rounded-3xl">
               <Image
-                src="/images/tour-city.webp"
+                src="/images/tour_cityadwa2.jpg"
                 alt="Adwa 00 Museum"
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105"

@@ -18,7 +18,7 @@ export default function LanganoTour() {
       { day: 1, title: "Rift Valley Drive", desc: "Scenic drive from Addis with a stop at Lake Ziway. Afternoon beach relaxation." },
       { day: 2, title: "Hot Springs & Flamingos", desc: "Morning visit to the Shalla hot springs and flamingo colonies before returning." }
     ],
-    images: ["/images/langano-1.jpg", "/images/langano-2.jpg"]
+    images: ["/images/tour_langano2.jpg", "/images/tour_langano.jpg"]
   };
 
   return <TourDetailLayout content={content} />;

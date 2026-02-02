@@ -13,7 +13,54 @@ import { Language } from '@/types';
 export default function CityEliteTour() {
   const [language, setLanguage] = useState<Language>(Language.EN);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const router = useRouter();
+
+  // Slideshow functionality
+  const handleNextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % tourContent.images.length);
+  };
+
+  const handlePrevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + tourContent.images.length) % tourContent.images.length);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
+
+  // Swipe functionality
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 50) {
+      // Swipe left - next slide
+      handleNextSlide();
+    }
+
+    if (touchEnd - touchStart > 50) {
+      // Swipe right - previous slide
+      handlePrevSlide();
+    }
+  };
+
+  // Automatic slideshow
+  React.useEffect(() => {
+    const slideInterval = setInterval(() => {
+      handleNextSlide();
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(slideInterval);
+  }, []);
 
   // Mock real-time city status data
   const cityStatus = {
@@ -93,10 +140,12 @@ export default function CityEliteTour() {
       }
     ],
     images: [
-      "/images/tour-city.webp",
+      "/images/tour_dancingwater.jpg",
       "/images/tour-city1.jpg",
-      "/images/tour-city2.jpg",
-      "/images/tour-city3.webp"
+      "/images/tour_city9.jpg",
+      "/images/tour-city3.webp",
+      "/images/tour_minilik.jpg",
+      "/images/tour_adwacity.jpg"
     ]
   };
 
@@ -104,19 +153,62 @@ export default function CityEliteTour() {
     <div className="min-h-screen bg-black text-white selection:bg-[#F15A24]/30">
       <Navbar language={language} setLanguage={setLanguage} onInquiryClick={() => setIsModalOpen(true)} />
 
-      {/* HERO SECTION */}
-      <section className="relative h-[70vh] flex items-end pb-20 px-6">
-        <Image 
-          src={tourContent.images[0]} 
-          alt={tourContent.title} 
-          fill 
-          className="object-cover opacity-60"
-          priority
-        />
+      {/* HERO SLIDESHOW SECTION */}
+      <section className="relative h-[70vh] flex items-end pb-20 px-6 overflow-hidden">
+        <div 
+          className="absolute inset-0"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {tourContent.images.map((img, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
+              style={{ zIndex: index }}
+            >
+              <Image
+                src={img}
+                alt={`${tourContent.title} - Slide ${index + 1}`}
+                fill
+                className="object-cover opacity-60"
+                priority={index === 0}
+              />
+            </div>
+          ))}
+        </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
         
+        {/* Slideshow Controls */}
+        <button
+          onClick={() => handlePrevSlide()}
+          className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm hover:bg-[#D4AF37]/20 text-white hover:text-[#D4AF37] transition-all duration-300 flex items-center justify-center z-10"
+        >
+          <ArrowLeft size={24} />
+        </button>
+        <button
+          onClick={() => handleNextSlide()}
+          className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm hover:bg-[#D4AF37]/20 text-white hover:text-[#D4AF37] transition-all duration-300 flex items-center justify-center z-10"
+        >
+          <ArrowLeft size={24} className="rotate-180" />
+        </button>
+        
+        {/* Slide Indicators */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-10">
+          {tourContent.images.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === currentSlide ? 'w-8 bg-[#D4AF37]' : 'bg-white/50 hover:bg-white'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+        
         <div className="relative max-w-7xl mx-auto w-full">
-          <motion.button 
+          <motion.button
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             onClick={() => router.back()}

@@ -18,7 +18,7 @@ export default function GorgoraTour() {
       { day: 1, title: "Waterfront Serenity", desc: "Drive from Gondar to Gorgora. Afternoon spent exploring the resort’s private beach." },
       { day: 2, title: "Ancient Echoes", desc: "Morning boat tour to hidden island monasteries and a visit to Susenyos' Palace." }
     ],
-    images: ["/images/gorgora-1.jpg", "/images/gorgora-2.jpg"]
+    images: ["/images/tour_gorgora1.jpg", "/images/gorgora-2.jpg"]
   };
 
   return <TourDetailLayout content={content} />;
