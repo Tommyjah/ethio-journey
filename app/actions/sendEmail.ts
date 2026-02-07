@@ -13,6 +13,11 @@ export async function sendInquiry(formData: FormData) {
   const requirements = formData.get('requirements');
   const tour = formData.get('tour');
 
+  // Validate required fields
+  if (!name || !email) {
+    return { success: false, error: 'Missing required fields' };
+  }
+
   try {
     const data = await resend.emails.send({
       from: 'Ethio Journey <onboarding@resend.dev>', // Later use your domain
@@ -22,15 +27,16 @@ export async function sendInquiry(formData: FormData) {
         <h1>New Journey Request</h1>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Travel Date:</strong> ${date}</p>
-        <p><strong>Guests:</strong> ${guests}</p>
+        ${date ? `<p><strong>Travel Date:</strong> ${date}</p>` : ''}
+        ${guests ? `<p><strong>Guests:</strong> ${guests}</p>` : ''}
         ${tour ? `<p><strong>Tour:</strong> ${tour}</p>` : ''}
         <p><strong>Special Requirements:</strong> ${requirements}</p>
       `,
     });
 
     return { success: true, data };
-  } catch (error) {
-    return { success: false, error };
+  } catch (error: any) {
+    console.error('Email sending error:', error);
+    return { success: false, error: error.message || 'Failed to send email' };
   }
 }

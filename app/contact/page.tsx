@@ -6,10 +6,13 @@ import { Phone, Mail, MapPin, MessageCircle, Send, ArrowLeft } from 'lucide-reac
 import { useRouter } from 'next/navigation';
 import Navbar from '../../components/Navbar';
 import { Language } from '../../types';
+import { sendInquiry } from '@/app/actions/sendEmail';
 
 export default function ContactPage() {
   const router = useRouter();
   const [language, setLanguage] = useState<Language>(Language.EN);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSent, setIsSent] = useState(false);
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-[#D4AF37] selection:text-black">
@@ -84,44 +87,103 @@ export default function ContactPage() {
           </div>
         </motion.div>
 
-        {/* Right: Elegant Contact Form */}
-        <motion.div 
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4 }}
-          className="bg-zinc-900/30 p-8 md:p-12 rounded-3xl border border-white/5"
-        >
-          <form className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Full Name</label>
-                <input type="text" className="w-full bg-transparent border-b border-white/10 py-2 focus:border-[#D4AF37] outline-none transition-colors text-sm font-light" placeholder="John Doe" />
-              </div>
-              <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Email Address</label>
-                <input type="email" className="w-full bg-transparent border-b border-white/10 py-2 focus:border-[#D4AF37] outline-none transition-colors text-sm font-light" placeholder="john@example.com" />
-              </div>
-            </div>
+         {/* Right: Elegant Contact Form */}
+         <motion.div 
+           initial={{ opacity: 0, x: 30 }}
+           animate={{ opacity: 1, x: 0 }}
+           transition={{ delay: 0.4 }}
+           className="bg-zinc-900/30 p-8 md:p-12 rounded-3xl border border-white/5"
+         >
+           {isSent ? (
+             <motion.div 
+               initial={{ opacity: 0, scale: 0.8 }} 
+               animate={{ opacity: 1, scale: 1 }}
+               className="py-12 text-center space-y-6"
+             >
+               <div className="flex justify-center text-[#D4AF37]"><MessageCircle size={80} strokeWidth={1.5} /></div>
+               <div className="space-y-2">
+                 <h2 className="text-3xl font-serif font-bold text-white">
+                   {language === Language.AM ? 'በተሳካ ሁኔታ ተልኳል!' : 'Request Received'}
+                 </h2>
+                 <p className="text-zinc-400">
+                   {language === Language.AM 
+                     ? 'ከእኛ ግንኙነት በቅርቡ ተነበቀዎታል።' 
+                     : 'We have received your request and will contact you shortly.'}
+                 </p>
+               </div>
+             </motion.div>
+           ) : (
+             <form className="space-y-8" onSubmit={async (e) => {
+               e.preventDefault();
+               setIsSubmitting(true);
+               
+               const formData = new FormData(e.currentTarget);
+               const result = await sendInquiry(formData);
+               
+               if (result.success) {
+                 setIsSent(true);
+               } else {
+                 alert(language === Language.AM ? "ችግር ተፈጥሯል፣ እባክዎ እንደገና ይሞክሩ" : "Something went wrong. Please try again.");
+               }
+               
+               setIsSubmitting(false);
+             }}>
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                 <div className="space-y-2">
+                   <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Full Name</label>
+                   <input 
+                     type="text" 
+                     name="name"
+                     required
+                     className="w-full bg-transparent border-b border-white/10 py-2 focus:border-[#D4AF37] outline-none transition-colors text-sm font-light" 
+                     placeholder="John Doe" 
+                   />
+                 </div>
+                 <div className="space-y-2">
+                   <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Email Address</label>
+                   <input 
+                     type="email" 
+                     name="email"
+                     required
+                     className="w-full bg-transparent border-b border-white/10 py-2 focus:border-[#D4AF37] outline-none transition-colors text-sm font-light" 
+                     placeholder="john@example.com" 
+                   />
+                 </div>
+               </div>
 
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Inquiry Type</label>
-              <select className="w-full bg-transparent border-b border-white/10 py-2 focus:border-[#D4AF37] outline-none transition-colors text-sm font-light appearance-none">
-                <option className="bg-zinc-950">Luxury Expedition</option>
-                <option className="bg-zinc-950">Private Fleet Hire</option>
-                <option className="bg-zinc-950">Corporate Travel</option>
-              </select>
-            </div>
+               <div className="space-y-2">
+                 <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Inquiry Type</label>
+                 <select 
+                   name="tour"
+                   className="w-full bg-transparent border-b border-white/10 py-2 focus:border-[#D4AF37] outline-none transition-colors text-sm font-light appearance-none"
+                 >
+                   <option className="bg-zinc-950">Luxury Expedition</option>
+                   <option className="bg-zinc-950">Private Fleet Hire</option>
+                   <option className="bg-zinc-950">Corporate Travel</option>
+                 </select>
+               </div>
 
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Your Message</label>
-              <textarea rows={4} className="w-full bg-transparent border-b border-white/10 py-2 focus:border-[#D4AF37] outline-none transition-colors text-sm font-light resize-none" placeholder="How can we craft your journey?" />
-            </div>
+               <div className="space-y-2">
+                 <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Your Message</label>
+                 <textarea 
+                   rows={4} 
+                   name="requirements"
+                   required
+                   className="w-full bg-transparent border-b border-white/10 py-2 focus:border-[#D4AF37] outline-none transition-colors text-sm font-light resize-none" 
+                   placeholder="How can we craft your journey?" 
+                 />
+               </div>
 
-            <button className="w-full py-4 bg-[#D4AF37] text-black font-bold text-xs uppercase tracking-[0.3em] hover:bg-white transition-all duration-500 rounded-sm">
-              Send Request
-            </button>
-          </form>
-        </motion.div>
+               <button 
+                 type="submit"
+                 disabled={isSubmitting}
+                 className="w-full py-4 bg-[#D4AF37] text-black font-bold text-xs uppercase tracking-[0.3em] hover:bg-white transition-all duration-500 rounded-sm disabled:opacity-50"
+               >
+                 {isSubmitting ? (language === Language.AM ? 'በ обробке...' : 'Processing...') : (language === Language.AM ? 'ጥያቄ ይላኩ' : 'Send Request')}
+               </button>
+             </form>
+           )}
+         </motion.div>
       </section>
 
       {/* Footer Back Button */}
