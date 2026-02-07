@@ -21,10 +21,10 @@ export const HOTELS: HotelItem[] = [
     images: [
       { url: '/images/hotels/hiltonhotel.jpg', alt: 'Hilton Addis Ababa Exterior', type: 'exterior' },
       { url: '/images/hotels/hiltonbedroom.jpg', alt: 'Hilton Addis Ababa Bedroom', type: 'bedroom' },
-      { url: '/images/hotels/hilton-gym.jpg', alt: 'Hilton Addis Ababa Gym', type: 'gym' },
+      { url: '/images/hotels/hiltongym.jpg', alt: 'Hilton Addis Ababa Gym', type: 'gym' },
       { url: '/images/hotels/hiltonpool.jpg', alt: 'Hilton Addis Ababa Swimming Pool', type: 'pool' },
-      { url: '/images/hotels/hilton-restaurant.jpg', alt: 'Hilton Addis Ababa Restaurant', type: 'restaurant' },
-      { url: '/images/hotels/hilton-lobby.jpg', alt: 'Hilton Addis Ababa Lobby', type: 'lobby' }
+      { url: '/images/hotels/reception.jpg', alt: 'Hilton Addis Ababa Restaurant', type: 'restaurant' },
+      { url: '/images/hotels/reception.jpg', alt: 'Hilton Addis Ababa Lobby', type: 'lobby' }
     ],
     starRating: 5,
     roomsAvailable: 45,
@@ -52,10 +52,10 @@ export const HOTELS: HotelItem[] = [
     images: [
       { url: '/images/hotels/sheraton-exterior.jpg', alt: 'Sheraton Addis Exterior', type: 'exterior' },
       { url: '/images/hotels/sheratonroom.jpg', alt: 'Sheraton Addis Bedroom', type: 'bedroom' },
-      { url: '/images/hotels/sheraton-gym.jpg', alt: 'Sheraton Addis Gym', type: 'gym' },
-      { url: '/images/hotels/sheraton-pool.jpg', alt: 'Sheraton Addis Swimming Pool', type: 'pool' },
-      { url: '/images/hotels/sheraton-restaurant.jpg', alt: 'Sheraton Addis Restaurant', type: 'restaurant' },
-      { url: '/images/hotels/sheraton-lobby.jpg', alt: 'Sheraton Addis Lobby', type: 'lobby' }
+      { url: '/images/hotels/hiltongym.jpg', alt: 'Sheraton Addis Gym', type: 'gym' },
+      { url: '/images/hotels/hiltonpool.jpg', alt: 'Sheraton Addis Swimming Pool', type: 'pool' },
+      { url: '/images/hotels/reception.jpg', alt: 'Sheraton Addis Restaurant', type: 'restaurant' },
+      { url: '/images/hotels/reception.jpg', alt: 'Sheraton Addis Lobby', type: 'lobby' }
     ],
     starRating: 5,
     roomsAvailable: 32,
@@ -83,10 +83,10 @@ export const HOTELS: HotelItem[] = [
     images: [
       { url: '/images/hotels/radissonbluhotel.jpg', alt: 'Radisson Blu Exterior', type: 'exterior' },
       { url: '/images/hotels/radissonbedroom.jpg', alt: 'Radisson Blu Bedroom', type: 'bedroom' },
-      { url: '/images/hotels/radisson-gym.jpg', alt: 'Radisson Blu Gym', type: 'gym' },
-      { url: '/images/hotels/radisson-pool.jpg', alt: 'Radisson Blu Swimming Pool', type: 'pool' },
-      { url: '/images/hotels/radisson-restaurant.jpg', alt: 'Radisson Blu Restaurant', type: 'restaurant' },
-      { url: '/images/hotels/radisson-lobby.jpg', alt: 'Radisson Blu Lobby', type: 'lobby' }
+      { url: '/images/hotels/hiltongym.jpg', alt: 'Radisson Blu Gym', type: 'gym' },
+      { url: '/images/hotels/hiltonpool.jpg', alt: 'Radisson Blu Swimming Pool', type: 'pool' },
+      { url: '/images/hotels/reception.jpg', alt: 'Radisson Blu Restaurant', type: 'restaurant' },
+      { url: '/images/hotels/reception.jpg', alt: 'Radisson Blu Lobby', type: 'lobby' }
     ],
     starRating: 4,
     roomsAvailable: 50,

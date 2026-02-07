@@ -9,6 +9,7 @@ import { Language } from '@/types';
 import { HOTELS } from '@/constants/hotels';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import HotelDetailView from '@/components/HotelDetailView';
 import { LOCALIZATION } from '@/constants';
 
 export default function HotelsPage() {
@@ -17,7 +18,7 @@ export default function HotelsPage() {
   const [checkIn, setCheckIn] = useState<string>('');
   const [checkOut, setCheckOut] = useState<string>('');
   const [guests, setGuests] = useState<number>(2);
-  const [selectedHotel, setSelectedHotel] = useState<number | null>(null);
+  const [selectedHotel, setSelectedHotel] = useState<string | null>(null);
   const t = LOCALIZATION[language];
 
   const handleSearch = () => {
@@ -29,7 +30,7 @@ export default function HotelsPage() {
   };
 
   const handleViewDetails = (hotelId: string) => {
-    setSelectedHotel(selectedHotel === parseInt(hotelId) ? null : parseInt(hotelId));
+    setSelectedHotel(selectedHotel === hotelId ? null : hotelId);
   };
 
   return (
@@ -219,6 +220,27 @@ export default function HotelsPage() {
               </motion.div>
             ))}
           </div>
+
+          {/* Hotel Detail View */}
+          {selectedHotel && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mt-12"
+            >
+              {(() => {
+                const hotel = HOTELS.find(h => h.id === selectedHotel);
+                return hotel ? (
+                  <HotelDetailView
+                    hotel={hotel}
+                    language={language}
+                    onBookClick={handleBookHotel}
+                  />
+                ) : null;
+              })()}
+            </motion.div>
+          )}
         </div>
       </section>
 
