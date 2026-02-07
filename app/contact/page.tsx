@@ -8,11 +8,63 @@ import Navbar from '../../components/Navbar';
 import { Language } from '../../types';
 import { sendInquiry } from '@/app/actions/sendEmail';
 
+// Input validation functions
+const validateEmail = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const validatePhone = (phone: string) => {
+  const phoneRegex = /^(?:\+251|0)[1-9]\d{8}$/;
+  return phoneRegex.test(phone);
+};
+
+// WhatsApp message formatter
+const formatWhatsAppMessage = (formData: FormData, language: Language) => {
+  const name = formData.get('name');
+  const email = formData.get('email');
+  const phone = formData.get('phone');
+  const tour = formData.get('tour');
+  const requirements = formData.get('requirements');
+
+  if (language === Language.AM) {
+    let message = `👋🏽ሰላም Ethio Journey,
+    
+📌 የተጠቀመው አይነት: ${tour}
+
+👤 ስም: ${name}
+📧 ኢሜይል: ${email}
+${phone ? `📱 ስልክ: ${phone}` : ''}
+
+💬 መልዕክት:
+${requirements || 'ምንም አልተሰጠም'}
+
+✅ የጥያቄዎ ተቀብለል። እንደገና ተገናኝነት ይፈልጉ!`;
+    return message;
+  } else {
+    let message = `👋🏽 Hello Ethio Journey,
+    
+📌 Inquiry Type: ${tour}
+
+👤 Name: ${name}
+📧 Email: ${email}
+${phone ? `📱 Phone: ${phone}` : ''}
+
+💬 Message:
+${requirements || 'None'}
+
+✅ Your inquiry has been received. We'll contact you shortly!`;
+    return message;
+  }
+};
+
 export default function ContactPage() {
   const router = useRouter();
   const [language, setLanguage] = useState<Language>(Language.EN);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const WHATSAPP_NUMBER = "251911444646";
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-[#D4AF37] selection:text-black">
@@ -113,43 +165,83 @@ export default function ContactPage() {
                </div>
              </motion.div>
            ) : (
-             <form className="space-y-8" onSubmit={async (e) => {
-               e.preventDefault();
-               setIsSubmitting(true);
-               
-               const formData = new FormData(e.currentTarget);
-               const result = await sendInquiry(formData);
-               
-               if (result.success) {
-                 setIsSent(true);
-               } else {
-                 alert(language === Language.AM ? "ችግር ተፈጥሯል፣ እባክዎ እንደገና ይሞክሩ" : "Something went wrong. Please try again.");
-               }
-               
-               setIsSubmitting(false);
-             }}>
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                 <div className="space-y-2">
-                   <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Full Name</label>
-                   <input 
-                     type="text" 
-                     name="name"
-                     required
-                     className="w-full bg-transparent border-b border-white/10 py-2 focus:border-[#D4AF37] outline-none transition-colors text-sm font-light" 
-                     placeholder="John Doe" 
-                   />
-                 </div>
-                 <div className="space-y-2">
-                   <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Email Address</label>
-                   <input 
-                     type="email" 
-                     name="email"
-                     required
-                     className="w-full bg-transparent border-b border-white/10 py-2 focus:border-[#D4AF37] outline-none transition-colors text-sm font-light" 
-                     placeholder="john@example.com" 
-                   />
-                 </div>
-               </div>
+              <form className="space-y-8" onSubmit={async (e) => {
+                e.preventDefault();
+                setIsSubmitting(true);
+                setErrors({});
+                
+                const formData = new FormData(e.currentTarget);
+                const email = formData.get('email');
+                const phone = formData.get('phone');
+
+                // Client-side validation
+                const newErrors: { [key: string]: string } = {};
+                if (!validateEmail(email?.toString() || '')) {
+                  newErrors.email = language === Language.AM ? 'ያስገቡት ኢሜይል አይገባም' : 'Invalid email format';
+                }
+                if (phone && !validatePhone(phone.toString())) {
+                  newErrors.phone = language === Language.AM ? 'ያስገቡት ስልክ ቁጥር አይገባም' : 'Invalid phone number format';
+                }
+
+                if (Object.keys(newErrors).length > 0) {
+                  setErrors(newErrors);
+                  setIsSubmitting(false);
+                  return;
+                }
+                
+                const result = await sendInquiry(formData);
+                
+                if (result.success) {
+                  setIsSent(true);
+                  
+                  // Prepare WhatsApp Redirect
+                  const message = formatWhatsAppMessage(formData, language);
+                  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+                  // Wait 2 seconds so they see the success UI, then redirect
+                  setTimeout(() => {
+                    window.open(whatsappUrl, '_blank');
+                  }, 2500);
+                } else {
+                  alert(`${language === Language.AM ? "ችግር ተፈጥሯል፣ እባክዎ እንደገና ይሞክሩ" : "Something went wrong. Please try again."} (${result.error})`);
+                }
+                
+                setIsSubmitting(false);
+              }}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Full Name</label>
+                    <input 
+                      type="text" 
+                      name="name"
+                      required
+                      className="w-full bg-transparent border-b border-white/10 py-2 focus:border-[#D4AF37] outline-none transition-colors text-sm font-light" 
+                      placeholder="John Doe" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Email Address</label>
+                    <input 
+                      type="email" 
+                      name="email"
+                      required
+                      className={`w-full bg-transparent border-b py-2 outline-none transition-colors text-sm font-light ${errors.email ? 'border-red-500' : 'border-white/10 focus:border-[#D4AF37]'}`} 
+                      placeholder="john@example.com" 
+                    />
+                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Phone Number</label>
+                  <input 
+                    type="tel" 
+                    name="phone"
+                    className={`w-full bg-transparent border-b py-2 outline-none transition-colors text-sm font-light ${errors.phone ? 'border-red-500' : 'border-white/10 focus:border-[#D4AF37]'}`} 
+                    placeholder="+251 911 444 646" 
+                  />
+                  {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+                </div>
 
                <div className="space-y-2">
                  <label className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold">Inquiry Type</label>

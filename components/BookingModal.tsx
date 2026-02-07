@@ -15,9 +15,68 @@ interface BookingModalProps {
   type?: 'tour' | 'hotel';
 }
 
+// Input validation functions
+const validateEmail = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const validatePhone = (phone: string) => {
+  const phoneRegex = /^(?:\+251|0)[1-9]\d{8}$/;
+  return phoneRegex.test(phone);
+};
+
+// WhatsApp message formatter
+const formatWhatsAppMessage = (formData: FormData, language: Language, type: 'tour' | 'hotel', tourName?: string, hotelName?: string) => {
+  const name = formData.get('name');
+  const email = formData.get('email');
+  const phone = formData.get('phone');
+  const date = formData.get('date');
+  const guests = formData.get('guests');
+  const requirements = formData.get('requirements');
+  const itemName = type === 'hotel' ? hotelName : tourName;
+
+  if (language === Language.AM) {
+    let message = `👋🏽ሰላም Ethio Journey,
+    
+📌 የተጠቀመው ምርወና: ${type === 'hotel' ? 'ኮተል' : 'ጉዞ'}
+${itemName ? `🏨 ${itemName}` : ''}
+
+👤 ስም: ${name}
+📧 ኢሜይል: ${email}
+${phone ? `📱 ስልክ: ${phone}` : ''}
+📅 ቀን: ${date}
+👥 አጋጣሚዎች: ${guests}
+
+💬 አስፈላጊ መጠራቀም:
+${requirements || 'ምንም አልተሰጠም'}
+
+✅ የመያዝ ትእዛዝዎ ተቀብለል። እንደገና ተገናኝነት ይፈልጉ!`;
+    return message;
+  } else {
+    let message = `👋🏽 Hello Ethio Journey,
+    
+📌 Booking Type: ${type === 'hotel' ? 'Hotel' : 'Tour'}
+${itemName ? `🏨 ${itemName}` : ''}
+
+👤 Name: ${name}
+📧 Email: ${email}
+${phone ? `📱 Phone: ${phone}` : ''}
+📅 Date: ${date}
+👥 Guests: ${guests}
+
+💬 Special Requirements:
+${requirements || 'None'}
+
+✅ Your booking request has been received. We'll contact you shortly!`;
+    return message;
+  }
+};
+
 export default function BookingModal({ isOpen, onClose, language, tourName, hotelName, type = 'tour' }: BookingModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   // ---------------------------------------------------------
   // ⚙️ CONFIGURATION: ADJUST YOUR CONTACT DETAILS HERE
@@ -28,9 +87,27 @@ export default function BookingModal({ isOpen, onClose, language, tourName, hote
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrors({});
 
     const formData = new FormData(e.currentTarget);
-    
+    const email = formData.get('email');
+    const phone = formData.get('phone');
+
+    // Client-side validation
+    const newErrors: { [key: string]: string } = {};
+    if (!validateEmail(email?.toString() || '')) {
+      newErrors.email = language === Language.AM ? 'ያስገቡት ኢሜይል አይገባም' : 'Invalid email format';
+    }
+    if (phone && !validatePhone(phone.toString())) {
+      newErrors.phone = language === Language.AM ? 'ያስገቡት ስልክ ቁጥር አይገባም' : 'Invalid phone number format';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setIsSubmitting(false);
+      return;
+    }
+
     // 1. Send Email via Server Action
     const result = await sendInquiry(formData);
 
@@ -38,20 +115,7 @@ export default function BookingModal({ isOpen, onClose, language, tourName, hote
       setIsSent(true);
 
       // 2. Prepare WhatsApp Redirect
-      const name = formData.get('name');
-      const date = formData.get('date');
-      const guests = formData.get('guests');
-      
-      const message = type === 'hotel' && hotelName ? (
-        language === Language.AM 
-          ? `ሰላም Ethio Journey, እኔ ${name} ነኝ። በ ${date} ለ ${guests} ሰው ${hotelName} ለማስያዝ እፈልጋለሁ።`
-          : `Hello Ethio Journey, I am ${name}. I am interested in booking ${hotelName} for ${guests} on ${date}.`
-      ) : (
-        language === Language.AM 
-          ? `ሰላም Ethio Journey, እኔ ${name} ነኝ። በ ${date} ለ ${guests} ሰው ጉዞ ለማስያዝ እፈልጋለሁ።`
-          : `Hello Ethio Journey, I am ${name}. I am interested in booking a trip for ${guests} on ${date}.`
-      );
-      
+      const message = formatWhatsAppMessage(formData, language, type, tourName, hotelName);
       const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
       // 3. Wait 2 seconds so they see the success UI, then redirect
@@ -62,7 +126,7 @@ export default function BookingModal({ isOpen, onClose, language, tourName, hote
       }, 2500);
 
     } else {
-      alert(language === Language.AM ? "ችግር ተፈጥሯል፣ እባክዎ እንደገና ይሞክሩ" : "Something went wrong. Please try again.");
+      alert(`${language === Language.AM ? "ችግር ተፈጥሯል፣ እባክዎ እንደገና ይሞክሩ" : "Something went wrong. Please try again."} (${result.error})`);
     }
     setIsSubmitting(false);
   };
@@ -103,8 +167,8 @@ export default function BookingModal({ isOpen, onClose, language, tourName, hote
                     </h2>
                     <p className="text-zinc-400">
                       {language === Language.AM 
-                        ? 'ወደ ዋትስአፕ እየወሰድዎት ነው...' 
-                        : 'Redirecting you to WhatsApp for instant concierge service...'}
+                        ? 'የመያዝ ትእዛዝዎ ተቀብለል። በቅርቡ እናገናኛለን!' 
+                        : 'Your booking request has been received. We\'ll contact you shortly!'}
                     </p>
                   </div>
                   <div className="flex justify-center">
@@ -137,6 +201,13 @@ export default function BookingModal({ isOpen, onClose, language, tourName, hote
                         value={tourName} 
                       />
                     )}
+                    {hotelName && (
+                      <input 
+                        type="hidden" 
+                        name="tour" 
+                        value={hotelName} 
+                      />
+                    )}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <label className="text-xs uppercase tracking-widest text-[#F15A24] font-bold">Full Name</label>
@@ -144,11 +215,28 @@ export default function BookingModal({ isOpen, onClose, language, tourName, hote
                       </div>
                       <div className="space-y-2">
                         <label className="text-xs uppercase tracking-widest text-[#F15A24] font-bold">Email Address</label>
-                        <input name="email" required type="email" placeholder="john@luxury.com" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#F15A24] transition-all" />
+                        <input 
+                          name="email" 
+                          required 
+                          type="email" 
+                          placeholder="john@luxury.com" 
+                          className={`w-full bg-white/5 border rounded-xl px-4 py-3 text-white focus:outline-none transition-all ${errors.email ? 'border-red-500' : 'border-white/10 focus:border-[#F15A24]'}`}
+                        />
+                        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-widest text-[#F15A24] font-bold">Phone Number</label>
+                        <input 
+                          name="phone" 
+                          type="tel" 
+                          placeholder="+251 911 444 646" 
+                          className={`w-full bg-white/5 border rounded-xl px-4 py-3 text-white focus:outline-none transition-all ${errors.phone ? 'border-red-500' : 'border-white/10 focus:border-[#F15A24]'}`}
+                        />
+                        {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+                      </div>
                       <div className="space-y-2">
                         <label className="text-xs uppercase tracking-widest text-[#F15A24] font-bold">Travel Date</label>
                         <div className="relative">
@@ -156,6 +244,9 @@ export default function BookingModal({ isOpen, onClose, language, tourName, hote
                           <input name="date" required type="date" className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-white focus:outline-none focus:border-[#F15A24]" />
                         </div>
                       </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <label className="text-xs uppercase tracking-widest text-[#F15A24] font-bold">Guests</label>
                         <div className="relative">

@@ -2,41 +2,75 @@
 
 import { Resend } from 'resend';
 
-// You'll get this key from resend.com (it's free for 3,000 emails/mo)
+// Initialize Resend with API key from environment variables
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+// Simple email template
+const simpleEmailTemplate = (data: any) => `
+  <h1>New Booking Request</h1>
+  <p><strong>Name:</strong> ${data.name}</p>
+  <p><strong>Email:</strong> ${data.email}</p>
+  ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
+  ${data.date ? `<p><strong>Date:</strong> ${data.date}</p>` : ''}
+  ${data.guests ? `<p><strong>Guests:</strong> ${data.guests}</p>` : ''}
+  ${data.tour ? `<p><strong>Tour/Hotel:</strong> ${data.tour}</p>` : ''}
+  ${data.requirements ? `<p><strong>Requirements:</strong> ${data.requirements}</p>` : ''}
+`;
+
+// Input validation functions
+const validateEmail = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const validatePhone = (phone: string) => {
+  const phoneRegex = /^(?:\+251|0)[1-9]\d{8}$/;
+  return phoneRegex.test(phone);
+};
 
 export async function sendInquiry(formData: FormData) {
   const name = formData.get('name');
   const email = formData.get('email');
+  const phone = formData.get('phone');
   const date = formData.get('date');
   const guests = formData.get('guests');
   const requirements = formData.get('requirements');
   const tour = formData.get('tour');
 
-  // Validate required fields
   if (!name || !email) {
     return { success: false, error: 'Missing required fields' };
   }
 
+  if (!validateEmail(email.toString())) {
+    return { success: false, error: 'Invalid email format' };
+  }
+
+  if (phone && !validatePhone(phone.toString())) {
+    return { success: false, error: 'Invalid phone number format' };
+  }
+
   try {
-    const data = await resend.emails.send({
-      from: 'Ethio Journey <onboarding@resend.dev>', // Later use your domain
-      to: ['ethiojourney@gmail.com'], // YOUR EMAIL HERE
-      subject: `New VIP Inquiry: ${name}`,
-      html: `
-        <h1>New Journey Request</h1>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        ${date ? `<p><strong>Travel Date:</strong> ${date}</p>` : ''}
-        ${guests ? `<p><strong>Guests:</strong> ${guests}</p>` : ''}
-        ${tour ? `<p><strong>Tour:</strong> ${tour}</p>` : ''}
-        <p><strong>Special Requirements:</strong> ${requirements}</p>
-      `,
+    console.log('Resend API Key exists:', !!process.env.RESEND_API_KEY);
+    
+    const result = await resend.emails.send({
+      from: 'onboarding@resend.dev',
+      to: 'tomiti2552@gmail.com', // Verified email address
+      subject: `New Booking: ${name}`,
+      html: simpleEmailTemplate({
+        name,
+        email,
+        phone,
+        date,
+        guests,
+        requirements,
+        tour,
+      }),
     });
 
-    return { success: true, data };
+    console.log('Email sent:', result);
+    return { success: true, data: result };
   } catch (error: any) {
-    console.error('Email sending error:', error);
+    console.error('Error sending email:', error);
     return { success: false, error: error.message || 'Failed to send email' };
   }
 }
