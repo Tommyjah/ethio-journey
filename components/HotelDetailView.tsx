@@ -205,17 +205,9 @@ export default function HotelDetailView({
                       : 'ከፍተኛ ልዩ ልምምድ አዳዲስ አዳዲስ አዳዲስ አዳዲስ አዳዲስ አዳዲስ'
                     }
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="text-2xl font-bold text-white">
+                   <div className="text-2xl font-bold text-white">
                       ${hotel.pricePerNight}
                     </div>
-                    <button 
-                      onClick={() => onBookClick(hotel.id, hotel.name[language])}
-                      className="bg-[#F15A24] hover:bg-[#F15A24]/90 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-300"
-                    >
-                      {language === Language.EN ? 'Book Now' : 'አሁን ይያዙ'}
-                    </button>
-                  </div>
                 </div>
               </div>
             )}

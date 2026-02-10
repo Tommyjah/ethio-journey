@@ -102,7 +102,7 @@ export default function ContactPage() {
                 <MapPin className="text-[#D4AF37] shrink-0 mt-1" size={20} />
                 <p className="text-white/60 font-light leading-relaxed">
                   Around 22, Weha Lemat, Meklit Building<br />
-                  3rd Floor, House #4<br />
+                  1st Floor, House #001<br />
                   Addis Ababa, Ethiopia
                 </p>
               </div>

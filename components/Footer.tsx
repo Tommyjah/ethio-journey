@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import { 
   Instagram, 
   Facebook, 
-  Twitter, 
+  Music2, 
+  MessageCircle, 
   Mail, 
   MapPin, 
   Phone, 
@@ -49,9 +50,10 @@ export default function Footer({ language }: FooterProps) {
               Defining the gold standard of travel across the Horn of Africa.
             </p>
             <div className="flex gap-6 pt-2">
-              <a href="https://instagram.com" target="_blank" className="text-white/40 hover:text-[#F15A24] transition-all transform hover:-translate-y-1"><Instagram size={22} /></a>
-              <a href="https://facebook.com" target="_blank" className="text-white/40 hover:text-[#F15A24] transition-all transform hover:-translate-y-1"><Facebook size={22} /></a>
-              <a href="https://twitter.com" target="_blank" className="text-white/40 hover:text-[#F15A24] transition-all transform hover:-translate-y-1"><Twitter size={22} /></a>
+              <a href="https://www.instagram.com/ethio_journey_tour" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-[#F15A24] transition-all transform hover:-translate-y-1"><Instagram size={22} /></a>
+              <a href="https://www.facebook.com/ETHIO_JOURNEY_tour_travel_and_car_rental_plc" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-[#F15A24] transition-all transform hover:-translate-y-1"><Facebook size={22} /></a>
+              <a href="https://www.tiktok.com/@ethiojourneytour" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-[#F15A24] transition-all transform hover:-translate-y-1"><Music2 size={22} /></a>
+              <a href="https://wa.me/251911444646" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-[#F15A24] transition-all transform hover:-translate-y-1"><MessageCircle size={22} /></a>
             </div>
           </div>
 
