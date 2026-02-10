@@ -54,7 +54,7 @@ export async function sendInquiry(formData: FormData) {
     
     const result = await resend.emails.send({
       from: 'onboarding@resend.dev',
-      to: 'tomiti2552@gmail.com', // Verified email address
+      to: 'ethiojourney@gmail.com', // Verified email address
       subject: `New Booking: ${name}`,
       html: simpleEmailTemplate({
         name,
