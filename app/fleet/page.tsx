@@ -18,8 +18,8 @@ const FLEET_DATA = [
     capacity: '4 Passengers',
     luggage: '4 Large Bags',
     icon: <Car size={16} />,
-    description: {
-      en: 'The pinnacle of off-road luxury. Perfect for deep expeditions with uncompromising comfort.',
+     description: {
+      en: 'The best of off-road luxury. Perfect for deep trips with uncompromising comfort.',
       am: 'ከፍተኛ ጥራት ያለውና ምቹ የሆነው ላንድ ክሩዘር V8 ለረጅም ጉዞዎች ተመራጭ ነው።'
     },
     features: ['Professional Driver', 'Satellite Tracking', 'Climate Control', 'Premium Sound']
@@ -94,9 +94,9 @@ export default function FleetPage() {
       <section className="pt-40 pb-20 px-6 border-b border-white/5">
         <div className="max-w-7xl mx-auto text-center">
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.5 }}>
-            <h1 className="font-serif text-5xl md:text-8xl font-bold mb-6 tracking-tight">
-              {language === Language.AM ? 'የተሽከርካሪዎች ዝርዝር' : 'The Service Fleet'}
-            </h1>
+             <h1 className="font-serif text-5xl md:text-8xl font-bold mb-6 tracking-tight">
+                {language === Language.AM ? 'የተሽከርካሪዎች ዝርዝር' : 'Our Vehicles'}
+              </h1>
             <div className="flex items-center justify-center gap-4">
                <div className="h-[1px] w-12 bg-[#F15A24]" />
                <p className="text-[#D4AF37] tracking-[0.5em] uppercase text-[10px] md:text-xs font-bold">

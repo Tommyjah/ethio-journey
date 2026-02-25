@@ -61,8 +61,9 @@ export default function Navbar({ language, setLanguage, onInquiryClick }: Navbar
   };
 
   const navLinks = [
-    { name: t.navTours || 'Tours', path: '/tours' },
-    { name: t.navFleet || 'The Fleet', path: '/fleet' },
+    { name: language === Language.AM ? 'ቅርስ' : 'Heritage', path: '/heritage' },
+    { name: t.navTours || 'Itineraries', path: '/tours' },
+    { name: t.navFleet || 'Our Vehicles', path: '/fleet' },
     { name: t.navServices || 'Services', path: '/services' },
     { name: t.navAbout || 'Our Legacy', path: '/about' },
     // NEW: Link to the Contact section we will build

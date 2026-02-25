@@ -133,7 +133,7 @@ export default function ToursPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-[#D4AF37] tracking-[0.4em] uppercase text-xs font-bold mb-4"
           >
-            Curated Expeditions
+            Featured Destinations
           </motion.p>
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
@@ -141,7 +141,7 @@ export default function ToursPage() {
             transition={{ delay: 0.2 }}
             className="font-serif text-5xl md:text-8xl font-bold"
           >
-            {language === Language.AM ? 'ልዩ የጉብኝት መርሃ ግብሮች' : 'Signature Journeys'}
+            {language === Language.AM ? 'ልዩ የጉብኝት መርሃ ግብሮች' : 'Main Journeys'}
           </motion.h1>
         </div>
       </section>

@@ -147,8 +147,8 @@ const AIConcierge = forwardRef<AIConciergeRef, AIConciergeProps>((props, ref) =>
               </div>
               <div className="space-y-4">
                 <h4 className="font-serif text-4xl font-bold text-white">The Lounge is Open</h4>
-                <p className="text-white/40 text-sm font-light leading-relaxed max-w-sm mx-auto">
-                  How may I assist in architecting your bespoke expedition today?
+                 <p className="text-white/40 text-sm font-light leading-relaxed max-w-sm mx-auto">
+                  How may I assist in architecting your bespoke itinerary today?
                 </p>
               </div>
             </div>

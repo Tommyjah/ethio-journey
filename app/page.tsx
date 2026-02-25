@@ -66,33 +66,14 @@ export default function Home() {
         </div>
 
         {/* --- SIGNATURE EXPEDITIONS (Updated Link to /tours) --- */}
-        <section id="tours" className="py-24 bg-gradient-to-b from-[#0A0A0A] to-[#121212]">
+        <section id="tours" className="py-16 bg-gradient-to-b from-[#0A0A0A] to-[#121212]">
           <div className="max-w-7xl mx-auto px-6">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-              <div>
-                <p className="text-[#D4AF37] tracking-[0.4em] uppercase text-[10px] font-bold mb-3">
-                  {language === Language.AM ? 'ልዩ ጉዞዎች' : 'Exclusive Curations'}
-                </p>
-                <h3 className="text-4xl md:text-5xl font-serif font-bold text-white">
-                  {language === Language.AM ? 'የኢትዮጵያን ክብር ይገልጹ' : 'The Signature Collection'}
-                </h3>
-              </div>
-              
-              <button 
-                onClick={() => router.push('/tours')}
-                className="group flex items-center gap-3 text-white/60 hover:text-[#D4AF37] transition-all uppercase tracking-[0.3em] text-[10px] font-bold border-b border-white/10 pb-2"
-              >
-                {language === Language.AM ? 'ሁሉንም ጥቅሎች ይመልከቱ' : 'Explore All Destinations'}
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
-
             {/* TourGrid serves as the teaser on the home page */}
             <TourGrid language={language} onBookClick={openBooking} />
           </div>
         </section>
 
-        {/* --- THE FLEET --- */}
+        {/* --- OUR VEHICLES --- */}
         <section id="fleet" className="py-24 bg-black overflow-hidden border-y border-white/5">
           <div className="max-w-7xl mx-auto px-6 text-white text-center">
             <motion.h2
@@ -101,7 +82,7 @@ export default function Home() {
               viewport={{ once: true }}
               className="font-serif text-4xl md:text-6xl font-bold mb-4"
             >
-              The Fleet
+              Our Vehicles
             </motion.h2>
             <div className="w-12 h-[1px] bg-[#D4AF37] mx-auto mb-6" />
             <p className="text-white/40 text-[10px] uppercase tracking-[0.5em] mb-16">The Gold Standard of Transportation</p>
@@ -136,7 +117,7 @@ export default function Home() {
               onClick={() => router.push("/fleet")}
               className="px-12 py-4 border border-white/20 text-white hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-500 text-[10px] font-bold uppercase tracking-[0.4em]"
             >
-              Explore Full Fleet
+              Explore All Vehicles
             </button>
           </div>
         </section>
@@ -179,7 +160,7 @@ export default function Home() {
                   onClick={openBooking}
                   className="px-10 py-4 bg-white text-black font-bold text-[10px] uppercase tracking-[0.3em] hover:bg-[#D4AF37] transition-all duration-500 rounded-sm"
                 >
-                  Inquire for Expedition
+                  Contact Us for Trip
                 </button>
               </div>
             </motion.div>

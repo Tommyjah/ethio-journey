@@ -18,7 +18,7 @@ const SERVICES = [
   {
     id: 'tours',
     icon: <Map size={32} />,
-    title: { [Language.EN]: 'Guided Expeditions', [Language.AM]: 'መሪ ያለባቸው ጉዞዎች' },
+    title: { [Language.EN]: 'Guided Itineraries', [Language.AM]: 'መሪ ያለባቸው ጉዞዎች' },
     desc: { 
       [Language.EN]: 'Expert-led journeys to the historical and natural wonders of Ethiopia.', 
       [Language.AM]: 'በታሪክ እና በተፈጥሮ ድንቆች ላይ በባለሙያዎች የሚመሩ ጉዞዎች።' 
@@ -57,14 +57,14 @@ export default function Services({ language }: { language: Language }) {
           >
             {language === Language.AM ? 'አገልግሎቶቻችን' : 'Our Services'}
           </motion.h2>
-          <motion.h3 
+           <motion.h3 
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl font-serif font-bold text-white"
           >
-            {language === Language.AM ? 'ልዩ የጉዞ ልምድ' : 'The Pinnacle of Travel'}
+            {language === Language.AM ? 'ልዩ የጉዞ ልምድ' : 'The Best of Travel'}
           </motion.h3>
         </div>
 

@@ -37,7 +37,7 @@ export default function TourGrid({ language = Language.EN, onBookClick }: TourGr
             transition={{ delay: 0.1 }}
             className="font-serif text-5xl md:text-7xl font-bold text-white"
           >
-            {language === Language.AM ? 'የተመረጡ ጉዞዎች' : 'Curated Journeys'}
+            {language === Language.AM ? 'የተመረጡ ጉዞዎች' : 'Handpicked Journeys'}
           </motion.h3>
         </div>
         
@@ -109,7 +109,7 @@ export default function TourGrid({ language = Language.EN, onBookClick }: TourGr
                 }}
                 className="text-[#F15A24] text-[10px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity"
               >
-                {language === Language.AM ? 'አሁኑኑ ይዘዙ' : 'Quick Inquiry'}
+                {language === Language.AM ? 'አሁኑኑ ይዘዙ' : 'Quick Contact'}
               </button>
 
               <div className="h-1 w-0 group-hover:w-full bg-[#F15A24] transition-all duration-700 mt-4" />

@@ -38,7 +38,7 @@ export default function Hero({ language, onBookClick }: HeroProps) {
           transition={{ duration: 1, ease: "easeOut" }}
         >
           <h2 className="text-[#F15A24] font-bold tracking-[0.4em] uppercase text-sm mb-4">
-            {language === Language.AM ? 'እንኳን ደህና መጡ' : 'The Pinnacle of Ethiopian Travel'}
+            {language === Language.AM ? 'እንኳን ደህና መጡ' : 'The Best of Ethiopian Travel'}
           </h2>
           
           <h1 className="text-5xl md:text-8xl font-serif font-bold text-white mb-8 leading-tight">
@@ -49,10 +49,10 @@ export default function Hero({ language, onBookClick }: HeroProps) {
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-6">
             <button 
-              onClick={() => router.push('/tours')}
+              onClick={() => router.push('/heritage')}
               className="bg-[#F15A24] text-white px-10 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-500 w-full md:w-auto"
             >
-              {language === Language.AM ? 'የተመረጡ ጉዞዎችን ይመልከቱ' : 'Explore Signature Journeys'}
+              {language === Language.AM ? 'የኢትዮጵያ ቅርስን አግኙ' : 'Explore Heritage'}
             </button>
             <button 
               onClick={onBookClick}
