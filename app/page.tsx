@@ -58,9 +58,6 @@ export default function Home() {
       <main>
         <Hero language={language} onBookClick={openBooking} />
 
-        {/* Hotel Booking Section */}
-        <HotelHero language={language} onBookClick={openBooking} />
-
         {/* City Elite Tour Feature */}
         <FeaturedCityTour language={language} onBookClick={openBooking} />
 
@@ -143,6 +140,9 @@ export default function Home() {
             </button>
           </div>
         </section>
+
+        {/* Hotel Booking Section */}
+        <HotelHero language={language} onBookClick={openBooking} />
 
         {/* --- DANAKIL HIGHLIGHT --- */}
         <section id="danakil" className="relative min-h-[80vh] w-full flex items-center justify-center overflow-hidden bg-black">

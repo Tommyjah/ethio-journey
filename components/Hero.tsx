@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Language } from '../types';
+import { useRouter } from 'next/navigation';
 
 interface HeroProps {
   language: Language;
@@ -10,13 +11,15 @@ interface HeroProps {
 }
 
 export default function Hero({ language, onBookClick }: HeroProps) {
+  const router = useRouter();
+
   return (
     <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-black">
       
       {/* --- BACKGROUND IMAGE --- */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/AI1.jpg" // FIXED: Pointing to your local file
+          src="/images/tour-danakildepression.webp"
           alt="Ethio Journey Luxury Expedition"
           fill
           priority 
@@ -46,10 +49,16 @@ export default function Hero({ language, onBookClick }: HeroProps) {
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-6">
             <button 
-              onClick={onBookClick}
+              onClick={() => router.push('/tours')}
               className="bg-[#F15A24] text-white px-10 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-500 w-full md:w-auto"
             >
-              {language === Language.AM ? 'አሁኑኑ ያስይዙ' : 'Begin Your Journey'}
+              {language === Language.AM ? 'የተመረጡ ጉዞዎችን ይመልከቱ' : 'Explore Signature Journeys'}
+            </button>
+            <button 
+              onClick={onBookClick}
+              className="bg-transparent text-white border-2 border-white px-10 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-500 w-full md:w-auto"
+            >
+              {language === Language.AM ? 'አሁኑኑ ያስይዙ' : 'Book Now'}
             </button>
           </div>
         </motion.div>
