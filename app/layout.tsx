@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SmoothScroll from "../components/SmoothScroll";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ethiojourney.pro.et'),
@@ -48,6 +49,7 @@ export default function RootLayout({
           {children}
         </SmoothScroll>
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
