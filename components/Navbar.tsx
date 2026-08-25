@@ -116,6 +116,14 @@ export default function Navbar({ language, setLanguage, onInquiryClick }: Navbar
             </button>
           ))}
           
+          {/* Admin Access */}
+          <button
+            onClick={() => handleNavigation('/admin/login')}
+            className="text-[10px] font-bold uppercase tracking-[0.3em] border border-white/10 px-4 py-2 rounded-full hover:bg-[#F15A24]/10 hover:text-[#F15A24] transition-all group"
+          >
+            {language === Language.AM ? 'አዲስ ግንዛብ' : 'Admin'}
+          </button>
+
           <div className="h-4 w-[1px] bg-white/10 mx-2" />
 
           {/* Language Toggle */}
@@ -146,9 +154,9 @@ export default function Navbar({ language, setLanguage, onInquiryClick }: Navbar
       {mobileMenuOpen && (
         <div className="fixed inset-0 bg-black/98 backdrop-blur-3xl z-[190] flex flex-col items-center justify-center space-y-8">
            {navLinks.map((link) => (
-             <button 
-               key={link.name} 
-               onClick={() => handleNavigation(link.path)} 
+             <button
+               key={link.name}
+               onClick={() => handleNavigation(link.path)}
                className={`text-3xl font-serif transition-colors ${
                  pathname === link.path ? 'text-[#F15A24]' : 'text-white hover:text-[#F15A24]'
                }`}
@@ -156,8 +164,16 @@ export default function Navbar({ language, setLanguage, onInquiryClick }: Navbar
                {link.name}
              </button>
            ))}
-           
-           <button 
+
+           {/* Admin Access */}
+           <button
+             onClick={() => { handleNavigation('/admin/login'); setMobileMenuOpen(false); }}
+             className="text-[#F15A24] text-2xl font-bold hover:text-white transition-colors"
+           >
+             {language === Language.AM ? 'አዲስ ግንዛብ' : 'Admin Panel'}
+           </button>
+
+           <button
              onClick={() => { onInquiryClick(); setMobileMenuOpen(false); }} 
              className="bg-[#F15A24] text-white px-12 py-4 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2"
            >

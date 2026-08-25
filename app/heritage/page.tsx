@@ -51,7 +51,7 @@ export default function HeritagePage() {
       {/* Hero Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <Image
-          src="/images/tour_lal.jpg"
+          src="/images/lalibela.jpg"
           alt="Ethiopian Heritage"
           fill
           className="object-cover opacity-60"

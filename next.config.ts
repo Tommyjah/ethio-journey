@@ -2,7 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    qualities: [75, 90, 100], // Configure allowed image qualities including 90
+    unoptimized: true,
+    qualities: [90],
     remotePatterns: [
       {
         protocol: 'https',
