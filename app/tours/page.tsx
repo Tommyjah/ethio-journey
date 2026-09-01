@@ -117,7 +117,7 @@ export default function ToursPage() {
       <Navbar language={language} setLanguage={setLanguage} onInquiryClick={() => setIsModalOpen(true)} />
 
       {/* Hero Section */}
-      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden pt-[100px]">
         <Image 
           src="/images/tour-city1.jpg"
           alt="Ethiopian Landscape"

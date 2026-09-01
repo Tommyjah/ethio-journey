@@ -66,7 +66,7 @@ export default function ServicesPage() {
       <Navbar language={language} setLanguage={setLanguage} onInquiryClick={() => setIsModalOpen(true)} />
 
       {/* Hero Section */}
-      <section className="relative h-[50vh] flex items-center justify-center pt-20">
+      <section className="relative h-[50vh] flex items-center justify-center pt-[100px]">
         <div className="absolute inset-0 bg-zinc-900/50 z-0" />
         <div className="relative z-10 text-center px-6">
           <motion.h1 
@@ -141,7 +141,7 @@ export default function ServicesPage() {
       </section>
 
       <Footer language={language} />
-      <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(true)} language={language} />
+      <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} language={language} />
     </div>
   );
 }

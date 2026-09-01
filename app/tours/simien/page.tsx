@@ -45,7 +45,7 @@ export default function SimienPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       <Navbar language={language} setLanguage={setLanguage} onInquiryClick={() => setIsModalOpen(true)} />
-      <section className="relative h-[60vh] flex items-end pb-20 px-6">
+      <section className="relative h-[60vh] flex items-end pb-20 px-6 pt-[100px]">
         <Image src="/images/semien_mountains.jpg" alt="Simien Mountains" fill className="object-cover opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
         <div className="relative max-w-7xl mx-auto w-full">

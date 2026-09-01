@@ -36,7 +36,7 @@ export default function AxumPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       <Navbar language={language} setLanguage={setLanguage} onInquiryClick={() => setIsModalOpen(true)} />
-      <section className="relative h-[60vh] flex items-end pb-20 px-6">
+      <section className="relative h-[60vh] flex items-end pb-20 px-6 pt-[100px]">
         <Image src="/images/tour-axum1.jpg" alt="Axum" fill className="object-cover opacity-70" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
         <div className="relative max-w-7xl mx-auto w-full">
@@ -73,6 +73,8 @@ export default function AxumPage() {
           <button onClick={() => setIsModalOpen(true)} className="w-full py-4 bg-[#D4AF37] text-black font-bold uppercase tracking-widest text-[10px] hover:bg-white transition-all">Inquire Now</button>
         </div>
       </section>
+
+      <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} language={language} />
     </div>
   );
 }

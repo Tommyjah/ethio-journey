@@ -8,9 +8,10 @@ import { FLEET, LOCALIZATION } from '../constants';
 
 interface FleetGridProps {
   language?: Language;
+  onBookClick?: () => void;
 }
 
-export default function FleetGrid({ language = Language.EN }: FleetGridProps) {
+export default function FleetGrid({ language = Language.EN, onBookClick }: FleetGridProps) {
   const t = LOCALIZATION[language] || LOCALIZATION[Language.EN];
   return (
     <section className="py-24 border-t border-white/5">
@@ -76,6 +77,15 @@ export default function FleetGrid({ language = Language.EN }: FleetGridProps) {
                   </span>
                   <span className="text-white/40 text-xs">{t.perDay || '/ day'}</span>
                 </div>
+
+                {onBookClick && (
+                  <button
+                    onClick={onBookClick}
+                    className="w-full mt-6 py-4 bg-[#F15A24] text-white text-[10px] font-bold uppercase tracking-widest rounded-lg hover:bg-white hover:text-black transition-all duration-300"
+                  >
+                    {language === Language.AM ? 'ያዘዙ' : 'Book This Vehicle'}
+                  </button>
+                )}
               </div>
             </motion.div>
           ))}

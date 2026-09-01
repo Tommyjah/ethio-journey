@@ -28,6 +28,30 @@ export default function Navbar({ language, setLanguage, onInquiryClick }: Navbar
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+  }, [mobileMenuOpen]);
+
+  // Close mobile menu on route change / Escape key
+  useEffect(() => {
+    const handleEscape = () => setMobileMenuOpen(false);
+    const handleHashChange = () => setMobileMenuOpen(false);
+    window.addEventListener('hashchange', handleHashChange);
+    document.addEventListener('keyup', (e) => {
+      if (e.key === 'Escape') handleEscape();
+    });
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, []);
+
   const handleNavigation = (path: string) => {
     setMobileMenuOpen(false);
 
@@ -152,41 +176,46 @@ export default function Navbar({ language, setLanguage, onInquiryClick }: Navbar
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 bg-black/98 backdrop-blur-3xl z-[190] flex flex-col items-center justify-center space-y-8">
-           {navLinks.map((link) => (
-             <button
-               key={link.name}
-               onClick={() => handleNavigation(link.path)}
-               className={`text-3xl font-serif transition-colors ${
-                 pathname === link.path ? 'text-[#F15A24]' : 'text-white hover:text-[#F15A24]'
-               }`}
-             >
-               {link.name}
-             </button>
-           ))}
+        <div 
+          className="fixed inset-0 bg-black z-[300] flex flex-col items-center justify-center space-y-8"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+         <div onClick={(e) => e.stopPropagation()}>
+            {navLinks.map((link) => (
+              <button
+                key={link.name}
+                onClick={() => handleNavigation(link.path)}
+                className={`text-3xl font-serif transition-colors ${
+                  pathname === link.path ? 'text-[#F15A24]' : 'text-white hover:text-[#F15A24]'
+                }`}
+              >
+                {link.name}
+              </button>
+            ))}
 
-           {/* Admin Access */}
-           <button
-             onClick={() => { handleNavigation('/admin/login'); setMobileMenuOpen(false); }}
-             className="text-[#F15A24] text-2xl font-bold hover:text-white transition-colors"
-           >
-             {language === Language.AM ? 'አዲስ ግንዛብ' : 'Admin Panel'}
-           </button>
+            {/* Admin Access */}
+            <button
+              onClick={() => { handleNavigation('/admin/login'); setMobileMenuOpen(false); }}
+              className="text-[#F15A24] text-2xl font-bold hover:text-white transition-colors"
+            >
+              {language === Language.AM ? 'አዲስ ግንዛብ' : 'Admin Panel'}
+            </button>
 
-           <button
-             onClick={() => { onInquiryClick(); setMobileMenuOpen(false); }} 
-             className="bg-[#F15A24] text-white px-12 py-4 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2"
-           >
-             <PhoneCall size={16} />
-             {language === Language.AM ? 'አሁኑኑ ይዘዙ' : 'Inquire Now'}
-           </button>
+            <button
+              onClick={() => { onInquiryClick(); setMobileMenuOpen(false); }} 
+              className="bg-[#F15A24] text-white px-12 py-4 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2"
+            >
+              <PhoneCall size={16} />
+              {language === Language.AM ? 'አሁኑኑ ይዘዙ' : 'Inquire Now'}
+            </button>
 
-           <button 
-             onClick={() => { setLanguage(language === Language.EN ? Language.AM : Language.EN); setMobileMenuOpen(false); }} 
-             className="text-[#D4AF37] text-xs tracking-[0.4em] font-bold"
-           >
-             {language === Language.EN ? 'አማርኛ' : 'ENGLISH'}
-           </button>
+            <button 
+              onClick={() => { setLanguage(language === Language.EN ? Language.AM : Language.EN); setMobileMenuOpen(false); }} 
+              className="text-[#D4AF37] text-xs tracking-[0.4em] font-bold"
+            >
+              {language === Language.EN ? 'አማርኛ' : 'ENGLISH'}
+            </button>
+          </div>
         </div>
       )}
     </nav>

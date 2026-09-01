@@ -47,7 +47,7 @@ export default function LalibelaDetailPage() {
       <Navbar language={language} setLanguage={setLanguage} onInquiryClick={() => setIsModalOpen(true)} />
 
       {/* Hero Header */}
-      <section className="relative h-[60vh] flex items-end pb-20 px-6">
+      <section className="relative h-[60vh] flex items-end pb-20 px-6 pt-[100px]">
         <Image 
           src="/images/tour-lalibela1.webp" 
           alt="Lalibela" 

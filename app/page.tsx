@@ -55,7 +55,7 @@ export default function Home() {
         onInquiryClick={openBooking} 
       />
 
-      <main>
+      <main className="pt-[100px]">
         <Hero language={language} onBookClick={openBooking} />
 
         {/* City Elite Tour Feature */}

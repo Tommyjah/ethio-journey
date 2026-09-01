@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { MapPin, Calendar, Sun, Users, Clock, Camera, Star } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import BookingModal from '@/components/BookingModal';
 import { Language } from '@/types';
 import { useState } from 'react';
 import { HERITAGE_SITES, HeritageSite } from '@/constants/heritage';
@@ -14,6 +15,7 @@ import { HERITAGE_SITES, HeritageSite } from '@/constants/heritage';
 export default function HeritageDetailPage() {
   const params = useParams();
   const [language, setLanguage] = useState<Language>(Language.EN);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   // Find the heritage site by slug
   const site: HeritageSite | undefined = HERITAGE_SITES.find(
@@ -36,7 +38,7 @@ export default function HeritageDetailPage() {
       <Navbar language={language} setLanguage={setLanguage} onInquiryClick={() => {}} />
 
       {/* Hero Section */}
-      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden pt-[100px]">
         <Image
           src={site.coverImage}
           alt={site.name[language]}
@@ -139,7 +141,7 @@ export default function HeritageDetailPage() {
                 {/* CTA Button */}
                 <button
                   className="w-full mt-8 bg-[#F15A24] text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300"
-                  onClick={() => window.location.href = 'https://wa.me/251912345678'}
+                  onClick={() => setIsModalOpen(true)}
                 >
                   {language === Language.AM 
                     ? `ወደ ${site.name[language]} ትራንስፖርት ይዘዙ` 
@@ -241,10 +243,10 @@ export default function HeritageDetailPage() {
                 : `Book your private tour to ${site.name[Language.EN]} and experience this incredible heritage site.`
               }
             </p>
-            <div className="flex flex-col md:flex-row gap-4 justify-center">
+              <div className="flex flex-col md:flex-row gap-4 justify-center">
               <button
                 className="bg-[#F15A24] text-white px-10 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300"
-                onClick={() => window.location.href = 'https://wa.me/251912345678'}
+                onClick={() => setIsModalOpen(true)}
               >
                 {language === Language.AM ? 'አሁኑኑ ይዘዙ' : 'Book Now'}
               </button>
@@ -258,6 +260,13 @@ export default function HeritageDetailPage() {
           </motion.div>
         </section>
       </main>
+
+      <BookingModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        language={language}
+        tourName={site.name[language]}
+      />
 
       <Footer language={language} />
     </div>

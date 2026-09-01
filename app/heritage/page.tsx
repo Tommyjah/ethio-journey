@@ -49,7 +49,7 @@ export default function HeritagePage() {
       <Navbar language={language} setLanguage={setLanguage} onInquiryClick={() => {}} />
 
       {/* Hero Section */}
-      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden pt-[100px]">
         <Image
           src="/images/lalibela.jpg"
           alt="Ethiopian Heritage"

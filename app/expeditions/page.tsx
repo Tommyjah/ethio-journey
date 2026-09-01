@@ -78,7 +78,7 @@ export default function ExpeditionsPage() {
       <Navbar language={language} setLanguage={setLanguage} onInquiryClick={openBooking} />
 
       {/* Hero Section */}
-      <section className="relative h-[60vh] w-full flex items-center justify-center overflow-hidden">
+      <section className="relative h-[60vh] w-full flex items-center justify-center overflow-hidden pt-[100px]">
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/hero-bg.jpg"

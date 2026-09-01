@@ -154,7 +154,7 @@ export default function CityEliteTour() {
       <Navbar language={language} setLanguage={setLanguage} onInquiryClick={() => setIsModalOpen(true)} />
 
       {/* HERO SLIDESHOW SECTION */}
-      <section className="relative h-[70vh] flex items-end pb-20 px-6 overflow-hidden">
+      <section className="relative h-[70vh] flex items-end pb-20 px-6 overflow-hidden pt-[100px]">
         <div 
           className="absolute inset-0"
           onTouchStart={handleTouchStart}

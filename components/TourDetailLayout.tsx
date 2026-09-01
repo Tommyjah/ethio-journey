@@ -36,7 +36,7 @@ export default function TourDetailLayout({ content }: { content: TourContent }) 
       <Navbar language={language} setLanguage={setLanguage} onInquiryClick={() => setIsModalOpen(true)} />
 
       {/* HERO SECTION */}
-      <section className="relative h-[70vh] flex items-end pb-20 px-6">
+      <section className="relative h-[70vh] flex items-end pb-20 px-6 pt-[100px]">
         <Image 
           src={content.images[0] || "https://images.unsplash.com/photo-1545044846-351ba102b4d5"} 
           alt={content.title} 

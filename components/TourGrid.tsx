@@ -97,17 +97,17 @@ export default function TourGrid({ language = Language.EN, onBookClick }: TourGr
                 {tour.name[language] || tour.name[Language.EN]}
               </h4>
               
-              <p className="text-white/50 text-sm leading-relaxed mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 line-clamp-2">
+              <p className="text-white/50 text-sm leading-relaxed mb-6 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 line-clamp-2">
                 {tour.description[language] || tour.description[Language.EN]}
               </p>
 
-              {/* Booking Trigger inside the card */}
+              {/* Booking Trigger inside the card - always visible on mobile, hover on desktop */}
               <button
                 onClick={(e) => {
                   e.stopPropagation(); // Prevents navigating to the detail page
                   if (onBookClick) onBookClick();
                 }}
-                className="text-[#F15A24] text-[10px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity"
+                className="text-[#F15A24] text-[10px] font-bold uppercase tracking-widest opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity bg-[#F15A24]/10 md:bg-transparent border border-[#F15A24]/30 md:border-transparent px-4 py-2 md:px-0 md:py-0 rounded-lg md:rounded-none"
               >
                 {language === Language.AM ? 'አሁኑኑ ይዘዙ' : 'Quick Contact'}
               </button>
